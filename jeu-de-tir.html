@@ -1,0 +1,439 @@
+<html>
+
+<head>
+	<title>Jeu de Tir</title>
+	<meta charset='utf-8' />
+	<style>
+		div#terrain_de_jeu {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 67%;
+			width: 93%;
+			margin-top: 5%;
+			margin-left: 0%;
+			margin-right: auto;
+			margin-bottom: auto;
+			display: none;
+		}
+		body {
+			margin: 0;
+		}
+		#fond img {
+			height: 100%;
+			width: 100%;
+		}
+		#fond {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			display: block;
+		}
+		div#monstre {
+			width: 100px;
+			height: 100px;
+		}
+		div#monstre img {
+			height: 100%;
+			width: 100%;
+		}
+		#info{
+			position: absolute;
+			top: 10px;
+			width: 100%;
+			display: none;
+		}
+		#score {
+			position: absolute;
+			font-size: 20px;
+			text-align: center;
+			color: white;
+			width: 15%;
+			top: 0.5%;
+			margin-left: 42.5%;
+		}
+		#t_restant{
+			position: absolute;
+			right: 1px;
+			color: white;
+			font-size: 20px;
+			text-align: center;
+			width: 15%;
+			margin-right: 5%;
+		}
+		div#narrateur {
+			display: table-cell;
+			position: absolute;
+			bottom: 1px;
+			display: block;
+		}
+
+		div#narrateur img {
+			width: 250px;
+			height: 250px;
+		}
+
+		.bubble {
+			position: relative;
+			font-family: sans-serif;
+			font-size: 18px;
+			line-height: 24px;
+			width: 300px;
+			background: #fff;
+			border-radius: 40px;
+			padding: 24px;
+			margin-left: 150px;
+			text-align: center;
+			color: #000;
+		}
+
+		.bubble-bottom-left:before {
+			content: "";
+			width: 0px;
+			height: 0px;
+			position: absolute;
+			border-left: 24px solid #fff;
+			border-right: 12px solid transparent;
+			border-top: 12px solid #fff;
+			border-bottom: 20px solid transparent;
+			left: 32px;
+			bottom: -24px;
+		}
+
+		div#bouton {
+			position: absolute;
+			right: 40px;
+			bottom: 40px;
+			display: block;
+		}
+
+		#sauver_kerbal {
+			display: none;
+		}
+		#rejouer{
+			display: none;
+		}
+		.btn-outline-secondary {
+			color: #6c757d;
+			opacity: 40%;
+			border-color: #ff0000;
+			width: 150px;
+			height: 50px;
+			border-radius: 5px;
+			font-size: 20px;
+		}
+
+		.btn-outline-secondary:hover {
+			color: #fff;
+			opacity: 100%;
+			background-color: #ff0000;
+			border-color: #ff0000;
+		}
+
+		.titre {
+			text-align: center;
+			color: white;
+			font-weight: bold;
+		}
+
+		#parametre {
+			position: absolute;
+			top: 1px;
+			width: 100%;
+			display: none;
+		}
+		#para_1{
+			margin-top: 50px;
+		}
+		#vitesse_app_moins {
+			margin-left: 39%;
+			width: 5%;
+			color: #6c757d;
+			opacity: 40%;
+			font-weight: bold;
+		}
+
+		#vitesse_app_moins:hover {
+			opacity: 100%;
+			color: black;
+		}
+
+		#valeur_vitesse {
+			width: 10%;
+			text-align: center;
+			margin-left: 1%;
+			margin-right: 1%;
+			font-size: medium;
+		}
+
+		#vitesse_app_plus {
+			width: 5%;
+			color: #6c757d;
+			opacity: 40%;
+			font-weight: bold;
+		}
+
+		#vitesse_app_plus:hover {
+			opacity: 100%;
+			color: black;
+		}
+		#para_2{
+			margin-top: 50px;
+		}
+		#temps_moins {
+			margin-left: 39%;
+			width: 5%;
+			color: #6c757d;
+			opacity: 40%;
+			font-weight: bold;
+		}
+
+		#temps_moins:hover {
+			opacity: 100%;
+			color: black;
+		}
+
+		#valeur_temps {
+			width: 10%;
+			text-align: center;
+			margin-left: 1%;
+			margin-right: 1%;
+			font-size: medium;
+		}
+
+		#temps_plus {
+			width: 5%;
+			color: #6c757d;
+			opacity: 40%;
+			font-weight: bold;
+		}
+
+		#temps_plus:hover {
+			opacity: 100%;
+			color: black;
+		}
+		#titre_bravo{
+			position: absolute;
+			top: 1px;
+			width: 100%;
+			text-align: center;
+			color: white;
+			font-size: 40px;
+			display: none;
+
+		}
+		#score_final{
+			position: absolute;
+			top: 1px;
+			width: 100%;
+			margin-top: 150px;
+			text-align: center;
+			color: white;
+			font-size: 30px;
+			display: block;
+			
+		}
+	</style>
+</head>
+
+<body>
+
+	</div>
+	<div id="fond">
+		<img id="fond_img" src="fond_intro.jpg" alt="">
+		<div id="bravo">
+			<h2 id="titre_bravo">Bravo votre mission est terminé</h2>
+			<h3 id="score_final"></h3>
+		</div>
+		<div id="parametre">
+			<div id="para_1">
+				<h2 class="titre">Vitesse apparition des virus (1 tous les x millisecondes)</h2>
+				<button id="vitesse_app_moins" onclick="vitesseM()">Moins</button>
+				<input id="valeur_vitesse" type="number" disabled value="1000">
+				<button id="vitesse_app_plus" onclick="vitesseP()">Plus</button>
+			</div>
+			<div id="para_2">
+				<h2 class="titre">Temps de la mission (en seconde)</h2>
+				<button id="temps_moins" onclick="tempsM()">Moins</button>
+				<input id="valeur_temps" type="number" disabled value="5">
+				<button id="temps_plus" onclick="tempsP()">Plus</button>
+			</div>
+		</div>
+		<div id="narrateur">
+			<div id="bulle" class="bubble bubble-bottom-left" contenteditable>Bienvenue sur notre belle planète Kerbal
+			</div>
+			<img id="narra" src="narra.png" alt="">
+		</div>
+		<div id="bouton">
+			<button type="button" id="btn_next" class="btn btn-outline-secondary" onclick="next_intro()">Suivant !</button>
+			<button type="button" id="sauver_kerbal" class="btn btn-outline-secondary" onclick="save_kerbal()">Sauver Kerbal</button>
+			<button type="button" id="rejouer" class="btn btn-outline-secondary" onclick="rejouer()">Rejouer ! </button>
+		</div>
+		<div id="info">
+			<div id="score">Score : 0</div>
+			<div id="t_restant">Il vous reste :</div>
+		</div>
+	</div>
+	
+	
+	<div id='terrain_de_jeu'>
+	</div>
+	</div>
+
+	<script>
+		var temps = 0
+		var score = 0
+		var i = 0
+		var v = 1000
+		var t = 5
+		var fond = document.getElementById("fond_img")
+		var tab_replique = ["Comme vous pouvez le constater derrière moi notre planète est victime d'une attaque ennemi.",
+			"Nous avons besoin d'un héro comme vous pour sauver notre planète !", "Pour sauver Kerbal tu vas devoir tuer le plus de virus possible !", "Choisi tes conditions de combat ! Une fois que tu es prêt appuie sur le bouton \"Sauver Kerbal\""]
+		
+
+		class Monstre {
+
+			constructor() {
+				this.element = document.createElement("div")
+				this.element.id = "monstre"
+				this.element.style.left = Math.random() * document.getElementById('terrain_de_jeu').offsetWidth
+				this.element.style.top = Math.random() * document.getElementById('terrain_de_jeu').offsetHeight
+				this.element.style.position = "absolute"
+				//var monstre_life = setTimeout(life, 1000)
+
+				this.element.innerHTML = "<img id=\"virus\" src='virus.png'>"
+				this.element.addEventListener('click', kill)
+				document.getElementById('terrain_de_jeu').appendChild(this.element)
+			}
+
+		}
+		function vitesseP(){
+			if(v<3000){
+				v += 100
+				document.getElementById("valeur_vitesse").value = v
+			}
+			else{
+				document.getElementById("valeur_vitesse").value = 3000
+			}
+		}
+		function vitesseM(){
+			if(v>200){
+				v-=100
+				document.getElementById("valeur_vitesse").value = v
+			}
+			else{
+				document.getElementById("valeur_vitesse").value = 200
+			}
+		}
+		function tempsP(){
+			if(t<30){
+				t += 1
+				document.getElementById("valeur_temps").value = t
+			}
+			else{
+				document.getElementById("valeur_temps").value = 30
+			}
+		}
+		function tempsM(){
+			if(t>5){
+				t-=1
+				document.getElementById("valeur_temps").value = t
+			}
+			else{
+				document.getElementById("valeur_temps").value = 5
+			}
+		}
+		function next_intro() {
+			if (tab_replique[i] != null) {
+				document.getElementById("bulle").innerHTML = tab_replique[i]
+				i++
+			}
+			if(i == 4) {
+				btn_next.style.display = "none"
+				document.getElementById("sauver_kerbal").style.display = "block"
+				document.getElementById("parametre").style.display = "block"
+			}
+		}
+
+
+		function save_kerbal(){
+			
+			fond.setAttribute("src", "fond.jpg")
+			document.getElementById("parametre").style.display = "none"
+			document.getElementById("narrateur").style.display = "none"
+			document.getElementById("sauver_kerbal").style.display = "none"
+			document.getElementById("terrain_de_jeu").style.display = "block"
+			document.getElementById("info").style.display = "block"
+			jeu = setInterval(action, v)
+			document.getElementById("t_restant").innerHTML = "Il vous reste : " +t+" seconde(s) !"
+			horloge = setInterval(function (){
+			if (t == 0){
+				stop()
+			}
+			else
+			{
+				t--
+			document.getElementById("t_restant").innerHTML = "Il vous reste : " +t+" seconde(s)!"
+			}
+			
+		}, 1000);
+		}
+			
+	
+
+		function action() {
+			new Monstre()
+		}
+		
+
+		function kill() {
+			this.remove()
+			score++
+			document.getElementById("score").innerHTML = "Score : " + score
+
+		}
+		function life() {
+			document.getElementById("monstre").innerHTML = "<img id=\"virus\" src='virus_red.png'>"
+		}
+		function scoreWindow() {
+			var contenu = document.querySelectorAll("#monstre")
+			contenu.forEach(element => {
+				document.getElementById("terrain_de_jeu").removeChild(element)
+			})
+			document.getElementById("terrain_de_jeu").style.display = "none"
+			document.getElementById("info").style.display = "none"
+			fond.setAttribute("src","fond_score.jpg")
+			document.getElementById("narrateur").style.display = "block"
+			document.getElementById("titre_bravo").style.display = "block"
+			document.getElementById("bulle").innerHTML = "Merci à toi Héro ! Grâce à toi Kerbal est délivré de ce virus ! Si tu veux rejouer clique sur \"Rejouer !\""
+			document.getElementById("rejouer").style.display = "block"
+			document.getElementById("score_final").style.display ="block"
+			let r = 1000/v*document.getElementById("valeur_temps").value
+			document.getElementById("score_final").innerHTML = "Votre super score est de : "+score+ " sur "+r+ " virus"
+		}
+		function stop(){
+			clearInterval(horloge);
+			clearInterval(jeu);
+			alert("Le temps est écoulé !");
+			scoreWindow();
+			
+		}
+		function rejouer(){
+			fond.setAttribute("src","fond_intro.jpg")
+			document.getElementById("rejouer").style.display = "none"
+			document.getElementById("bulle").innerHTML = tab_replique[3]
+			document.getElementById("sauver_kerbal").style.display = "block"
+			document.getElementById("parametre").style.display = "block"
+			document.getElementById("score_final").style.display ="none"
+			document.getElementById("titre_bravo").style.display = "none"
+			t = 5
+			score = 0
+
+
+		}
+
+	</script>
+
+	<body>
+
+</html>
